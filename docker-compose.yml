@@ -1,15 +1,15 @@
-version: "3.7"
-services:
-  fastapi_api:
-    build: .
-    ports:
-      - "8000:8000"
-    # Caso não seja necessário usar uma rede externa, remova ou comente a seção abaixo:
-    # networks:
-    #   - AbreusNet
-    restart: on-failure
+version: '3.8'
 
-# Se remover a referência à rede, você pode também retirar a definição dela:
-# networks:
-#   AbreusNet:
-#     external: true
+services:
+  fastapi:
+    image: fastapi-app:latest  # Nome simplificado da imagem
+    build: .  # Mantido se o Portainer permitir builds
+    networks:
+      - AbreusNet
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.fastapi.rule=Host(`api.atmosvision.com.br`)"
+        - "traefik.http.routers.fastapi.entrypoints=websecure"
+        - "traefik.http.routers.fastapi.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.fastapi.loadbalancer.server.port=8000"
