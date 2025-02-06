@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  fastapi_api:
+    build: .
+    ports:
+      - "8000:8000"
+    # Caso não seja necessário usar uma rede externa, remova ou comente a seção abaixo:
+    # networks:
+    #   - AbreusNet
+    restart: on-failure
+
+# Se remover a referência à rede, você pode também retirar a definição dela:
+# networks:
+#   AbreusNet:
+#     external: true
